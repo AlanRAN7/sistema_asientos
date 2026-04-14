@@ -17,9 +17,10 @@ class Seat
         SET estado = 'disponible',
             reservado_at = NULL
         WHERE estado = 'ocupado'
-        AND TIMESTAMPDIFF(SECOND, reservado_at, NOW()) >= 10
+        AND TIMESTAMPDIFF(SECOND, reservado_at, NOW()) >= 300
     ");
-        $result = $this->conn->query("SELECT * FROM asientos ORDER BY fila, numero");
+        $result = $this->conn->query("SELECT *,
+        TIMESTAMPDIFF(SECOND, reservado_at, NOW()) as tiempo_ocupado FROM asientos ORDER BY fila, numero");
 
         return $result;
     }
